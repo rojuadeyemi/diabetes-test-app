@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Diabetes Test Application</title>
+    <link rel="icon" type="image/x-icon" href="/static/icon.png">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <div class="icon-container">
+        <img src="/static/diabetes test.png" alt="Custom Icon">
+    </div>
+    <div class="container mt-4">
+        <h1 class="text-center">Test Result</h1>
+        <div class="info-section d-flex align-items-center my-4">
+            <img src="/static/{{patient_info['Gender']}}.png" alt="Patient Image" class="img-fluid">
+            <div class="info ml-3">
+                {% for detail, value in patient_info.items() %}
+                    <p><strong>{{ detail }}:</strong> {{ value }}</p>
+                {% endfor %}
+            </div>
+        </div>
+            <div class="result mt-4">
+                <div class="alert alert-success text-center">
+                    <h2>{{ text.status|safe }}</h2>
+                    <h4><i>{{ text.remark }}</i></h4>
+                </div>
+            </div>
+        <div class="text-center mt-3">
+            <a href="/" class="btn btn-primary">Go back to Home Page</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
