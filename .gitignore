@@ -8,9 +8,6 @@ __pycache__/
 *.log
 *.pyc
 
-# markup document
-*.md
-
 # folders
 processed_data/
 report/
