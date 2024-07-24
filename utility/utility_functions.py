@@ -64,7 +64,7 @@ def plot_roc_curve(model, X_test, y_test, model_name):
 def plot_confusion_matrix(y_test, y_pred, model_name):
     cm = confusion_matrix(y_test, y_pred,normalize = 'true')
     plt.figure()
-    sns.heatmap(cm, annot=True, fmt='.1%', xticklabels=['No Diabetes', 'Diabetes'],
+    sns.heatmap(cm, annot=True, fmt='.0%', xticklabels=['No Diabetes', 'Diabetes'],
                 yticklabels=['No Diabetes', 'Diabetes'])
     plt.xlabel('Predicted')
     plt.ylabel('True')
