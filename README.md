@@ -75,7 +75,6 @@ In this project, an application aimed at predicting diabetic status using a mach
 |F1 Score|77%|88%|89%|66%
 |ROC AUC|88%|93%|94%|77%
 
-
 ## Model Deployment
 
 ### Prerequisites
