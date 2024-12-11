@@ -1,15 +1,6 @@
 import pandas as pd
 from sklearn.metrics import  classification_report
-from utility.utility_functions import load_model,plot_confusion_matrix,plot_roc_curve
-
-# Load model and test dataset
-def load_model_and_data(model_path, X_test_path, y_test_path):
-
-    X_test = pd.read_csv(X_test_path)
-    y_test = pd.read_csv(y_test_path).values.ravel().astype('int')
-    
-    return load_model(model_path), X_test, y_test
-
+from utility.utility_functions import load_model,plot_confusion_matrix,plot_roc_curve,load_model_and_data
 
 # Then evaluate the model
 def evaluate_model(model_path, X_test_path, y_test_path, model_name):
@@ -25,7 +16,6 @@ def evaluate_model(model_path, X_test_path, y_test_path, model_name):
     # Classification Report
     print(f"Classification Report for {model_name}:\n")
     print(classification_report(y_test, y_pred))
-
 
 # The main function
 def main():

@@ -3,7 +3,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from utility.utility_functions import load_train_test_data,load_data,save_model
+from utility.utility_functions import load_data,save_model
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
@@ -25,10 +25,12 @@ def grid_search_val(model,X_train,y_train,param_grid,cv,scoring):
     return best_model
     
 # Train all the models and cross-validate, then save the best model
-def main(dataset_path,y,test_size,cv,scoring):
+def main(X_train_path, X_test_path, y_train_path, y_test_path,cv,scoring):
     
-    df = load_data(dataset_path)
-    X_train, X_test, y_train, y_test = load_train_test_data(df, y, test_size)
+    X_train, X_test = load_data(X_train_path), load_data(X_test_path)
+    
+    y_train, y_test  = load_data(y_train_path), load_data(y_test_path)
+    
     y_train = y_train.values.ravel().astype('int')
     y_test = y_test.values.ravel().astype('int')
 
@@ -95,9 +97,10 @@ def main(dataset_path,y,test_size,cv,scoring):
 
 
 if __name__ == "__main__":
-    dataset_path = "./raw/diabetes_data.csv"
-    y='Diagnosis'
-    test_size=0.2
+    X_train_path = './processed_data/X_train.csv'
+    X_test_path = './processed_data/X_test.csv'
+    y_train_path = './processed_data/y_train.csv'
+    y_test_path = './processed_data/y_test.csv'
     cv=5
     scoring='roc_auc'
-    main(dataset_path, y, test_size,cv,scoring)
+    main(X_train_path, X_test_path, y_train_path, y_test_path,cv,scoring)
