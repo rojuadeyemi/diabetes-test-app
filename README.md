@@ -12,7 +12,7 @@ In this project, an application aimed at predicting diabetic status using a mach
 #### 2. Model Training and Evaluation:
 * Algorithms Tested: Logistic Regression, Random Forests, XGBoost, and K-Nearest Neighbor.
 * Performance Metrics: Accuracy, precision, recall, F1-score, and AUC-ROC
-* Hyperparameter Tuning: K-Fold Cross-validation was used to determine the best model. Then, Grid Search algorith was employed to fine-tune the best model for optimal performance.
+* Hyperparameter Tuning: K-Fold Cross-validation was first used to determine the best model. Then, Grid Search algorith was employed to fine-tune the best model for optimal performance.
 
 #### 3. Model Deployment:
 * Best Model Selection: `XGBoost` demonstrated the highest accuracy and reliability in predicting diabetic status, and hence was selected for deployment.
