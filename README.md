@@ -69,11 +69,11 @@ In this project, an application aimed at predicting diabetic status using a mach
 ## Performance Metrics Summary
 ||Logistic Regression|Random Forest| XGBoost|K-Nearest Neighbor
 |-|:-:|:-:|:-:|:-:
-|Accuracy|80%|91%|91%|64%
-|Precision|71%|94%|91%|53%
-|Recall|85%|82%|87%|88%
-|F1 Score|77%|88%|89%|66%
-|ROC AUC|88%|93%|94%|77%
+|Accuracy|80%|92%|92%|65%
+|Precision|71%|95%|91%|52%
+|Recall|79%|84%|89%|88%
+|F1 Score|75%|89%|90%|65%
+|ROC AUC|88%|94%|95%|78%
 
 ## Model Deployment
 

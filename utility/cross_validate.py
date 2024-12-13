@@ -8,7 +8,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-
 def grid_search_val(model,X_train,y_train,param_grid,cv,scoring):
 
     # Initialize GridSearchCV

@@ -18,16 +18,7 @@ pd.set_option('display.max_colwidth', 4000)
 
 # A function for removing outliers
 def remove_outliers_zscore(df, threshold=3):
-    """
-    Removes outliers from a DataFrame based on z-scores for a given column.
-
-    Parameters:
-        df (pd.DataFrame): The input DataFrame.
-        threshold (float): The z-score threshold for identifying outliers.
-
-    Returns:
-        pd.DataFrame: A DataFrame with outliers removed.
-    """
+    
     numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
     
     # Calculate the z-scores for the columns
@@ -49,17 +40,6 @@ def load_data(dataset_path):
     df.drop(columns=[col for col in columns_to_drop if col in df.columns], axis=1,inplace=True)
     
     return df
-    
-#Split the Dataset into train and test datasets
-def split_train_test_data(df,target_variable,test_size = 0.2):
-    y = df[target_variable]
-    X=df.drop([target_variable],axis=1)
-
-    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=test_size,stratify=y,random_state=24)
-    y_train = pd.DataFrame(y_train)
-    y_test = pd.DataFrame(y_test)
-
-    return X_train, X_test, y_train, y_test
 
 # Load model and test dataset
 def load_model_and_data(model_path, X_test_path, y_test_path):
@@ -101,9 +81,10 @@ def plot_roc_curve(model, X_test, y_test, model_name):
     plt.legend(loc="best")
     os.makedirs('plots', exist_ok=True)
     plt.savefig(f'plots/{model_name}_roc_curve.png')
+    plt.close()
 
     return roc_auc
-
+    
 # Confusion Matrix function
 def plot_confusion_matrix(y_test, y_pred, model_name):
     cm = confusion_matrix(y_test, y_pred,normalize = 'true')
@@ -115,6 +96,7 @@ def plot_confusion_matrix(y_test, y_pred, model_name):
     plt.title(f'Confusion Matrix - {model_name}')
     os.makedirs('plots', exist_ok=True)
     plt.savefig(f'plots/{model_name}_confusion_matrix.png')
+    plt.close()
 
 
 # Save the individual dataset
@@ -168,6 +150,9 @@ def perform_eda(df,target_column, dataset_name):
     
     # Obtain plot for the categorical columns
     categorical_columns = df.select_dtypes(include=['object', 'category']).columns
+    for i in categorical_columns:
+        barplot(i,df)
+    
     if len(categorical_columns)>0:
         # Melt the dataframe to long-form format
         df_melted = df.melt(value_vars=categorical_columns)
@@ -183,7 +168,7 @@ def perform_eda(df,target_column, dataset_name):
         os.makedirs('plots', exist_ok=True)
         plt.savefig(f'plots/{dataset_name}-Count_plot.png')
 
-    # Plot histogram for the the last 4 continuous columns
+    # Plot correlation for the numeric columns
     numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
     if len(numeric_columns)>0:
         # Plot correlation plot
@@ -192,6 +177,7 @@ def perform_eda(df,target_column, dataset_name):
         plt.title(f'Correlation Plot')
         os.makedirs('plots', exist_ok=True)
         plt.savefig(f'plots/{dataset_name}-Corr_plot.png')
+        plt.close()
 
 def countplot_with_order(data, **kwargs):
     col_order = data['value'].value_counts().index
@@ -232,8 +218,6 @@ def handle_class_imbalance(X,y):
     # return the resampled X and y
     return X_smoted, y_smoted
 
-
-
 # Model evaluation function
 def train_and_evaluate_model(X_train, X_test, y_train, y_test, model, model_name):
 
@@ -272,3 +256,78 @@ def train_and_evaluate_model(X_train, X_test, y_train, y_test, model, model_name
 
     #Save the pipeline after trainning
     save_model(pipeline,model_name)
+
+
+def outlier_plot(X):
+    
+    # Select numeric columns
+    numeric_columns = X.select_dtypes(include=['float64', 'int64']).columns
+
+    # Number of columns in the subplot grid
+    ncols = len(numeric_columns)
+    
+    # Number of rows and columns for the grid (r x c)
+    r = 6
+    c = (ncols + r - 1) // r  # Ensure all plots fit within the grid
+
+    # Create subplots
+    f, axes = plt.subplots(r, c, figsize=(20, 18), sharex=True)
+
+    # Flatten axes to iterate over them
+    axes = axes.flatten()
+
+    # Create boxplot for each numeric column
+    for i, col in enumerate(numeric_columns):
+        sns.boxplot(x=X[col], ax=axes[i])
+        axes[i].set_title(f'Boxplot of {col}')
+    
+    # Remove any unused axes
+    for i in range(len(numeric_columns), len(axes)):
+        axes[i].axis('off')
+
+    # Create a 'plots' directory if it doesn't exist
+    os.makedirs('plots', exist_ok=True)
+    
+    # Save the plot
+    plt.tight_layout()
+    plt.savefig('plots/Outlier_plot.png')
+    plt.close()
+    
+    
+def barplot(target, df):
+
+    df = df.drop(['Diagnosis'],axis=1)
+    
+    # Select numeric columns
+    numeric_columns = df.select_dtypes(include=['float64', 'int64']).columns
+
+    # Number of columns in the subplot grid
+    ncols = len(numeric_columns)
+    
+    # Number of rows and columns for the grid (r x c)
+    r = 6
+    c = (ncols + r - 1) // r  # Ensure all plots fit within the grid
+
+    # Create subplots
+    f, axes = plt.subplots(r, c, figsize=(20, 18), sharex=True)
+
+    # Flatten axes to iterate over them
+    axes = axes.flatten()
+
+    # Create barplot for each numeric column
+    for i, col in enumerate(numeric_columns):
+        # Calculate the average of the numeric column grouped by the target
+        sns.barplot(x=target, y=col, data=df, ax=axes[i])
+        axes[i].set_title(f'{col} by {target}')
+    
+    # Remove any unused axes
+    for i in range(len(numeric_columns), len(axes)):
+        axes[i].axis('off')
+
+    # Create a 'plots' directory if it doesn't exist
+    os.makedirs('plots', exist_ok=True)
+    
+    # Save the plot
+    plt.tight_layout()
+    plt.savefig(f'plots/{target}_Barplot.png')
+    plt.close()

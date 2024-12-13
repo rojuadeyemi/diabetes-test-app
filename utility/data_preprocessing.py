@@ -1,23 +1,30 @@
-from utility.utility_functions import (split_train_test_data, load_data, save_datasets,
-                                    perform_eda, handle_missing_values, remove_outliers_zscore,
-                                    handle_class_imbalance)
-    
-def main(file_path, target_column, output_dir):
+from utility.utility_functions import (load_data, save_datasets,
+                                    perform_eda, handle_missing_values,
+                                    handle_class_imbalance,outlier_plot,remove_outliers_zscore)
+from sklearn.model_selection import train_test_split
+
+def main(data_path, target_column, output_dir,test_size):
 
     #Load the dataset
-    df = load_data(file_path)
+    df = load_data(data_path)
 
     # Perform EDA
     perform_eda(df, target_column, "Raw Dataset")
 
     # Handle missing data, if there's any
     df = handle_missing_values(df)
-    
-    # Remove outliers
+
+    # remove outliers
     df = remove_outliers_zscore(df)
     
+    y = df[target_column]
+    X=df.drop([target_column],axis=1)
+
+    # Check the outlier plot
+    outlier_plot(X)
+    
     #Split the dataset
-    X_train, X_test, y_train, y_test = split_train_test_data(df, target_column)
+    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = test_size)
 
     #handle class imbalance
     X_train, y_train = handle_class_imbalance(X_train,y_train)
@@ -27,7 +34,8 @@ def main(file_path, target_column, output_dir):
 
 
 if __name__ == "__main__":
-    file_path = "./raw/diabetes_data.csv" 
+    data_path = "./raw/diabetes_data.csv" 
     target_column = "Diagnosis"
-    output_dir = "./processed_data" 
-    main(file_path, target_column, output_dir)
+    output_dir = "./processed_data"
+    test_size = 0.2
+    main(data_path, target_column, output_dir,test_size)
