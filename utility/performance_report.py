@@ -44,12 +44,13 @@ def find_best(folder_path):
     model_file = [f for f in files if f.startswith("cv_")]
     
     # return model path
-    model_name = model_file[0][len("cv_"):-len('.pkl')]
-    return model_name, os.path.join(folder_path, model_file[0])
+    
+    return model_file[0], os.path.join(folder_path, model_file[0])
 
 def main(folder_path,X_test_path, y_test_path):
 
     model_name,model_path = find_best(folder_path)
+    print(model_name)
     comprehensive_model_report(model_path, X_test_path, y_test_path, model_name)
 
 if __name__ == "__main__":

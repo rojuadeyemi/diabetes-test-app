@@ -24,14 +24,11 @@ def grid_search_val(model,X_train,y_train,param_grid,cv,scoring):
     return best_model
     
 # Train all the models and cross-validate, then save the best model
-def main(X_train_path, X_test_path, y_train_path, y_test_path,cv,scoring):
+def main(X_train_path, y_train_path,cv,scoring):
     
-    X_train, X_test = load_data(X_train_path), load_data(X_test_path)
+    X_train = load_data(X_train_path)
     
-    y_train, y_test  = load_data(y_train_path), load_data(y_test_path)
-    
-    y_train = y_train.values.ravel().astype('int')
-    y_test = y_test.values.ravel().astype('int')
+    y_train  = load_data(y_train_path).values.ravel().astype('int')
 
     # Extract the numeric and categorical columns
     numeric_columns = X_train.select_dtypes(include=['float64', 'int64']).columns
@@ -97,9 +94,7 @@ def main(X_train_path, X_test_path, y_train_path, y_test_path,cv,scoring):
 
 if __name__ == "__main__":
     X_train_path = './processed_data/X_train.csv'
-    X_test_path = './processed_data/X_test.csv'
     y_train_path = './processed_data/y_train.csv'
-    y_test_path = './processed_data/y_test.csv'
     cv=5
     scoring='roc_auc'
-    main(X_train_path, X_test_path, y_train_path, y_test_path,cv,scoring)
+    main(X_train_path, y_train_path,cv,scoring)
