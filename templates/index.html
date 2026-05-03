@@ -43,6 +43,16 @@
                             </div>
                         </div>
                         </div>
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="doctor">Doctor's Name</label>
+                                <input type="text" class="form-control" id="doctor" name="doctor" pattern="[A-Za-zÀ-ÿ\s-]+" required>
+                            </div>
+                        </div>
+
+
                     {% for header, features in info.items() %}
                     <div class="form-section">
                         <h4 class="section-title bg-light p-2 rounded">{{ header }}</h4>

@@ -12,8 +12,6 @@ __pycache__/
 processed_data/
 report/
 instance/
-migrations/
-
 
 # Jupyter Notebook
 .ipynb_checkpoints/
