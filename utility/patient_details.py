@@ -51,8 +51,6 @@ def categories():
     info= {
             "Demographic Information": [
                 "Age",
-                "Gender",
-                "Ethnicity",
                 "Socioeconomic Status",
                 "Education Level"
             ],
