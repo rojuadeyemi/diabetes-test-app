@@ -38,8 +38,8 @@ def train_and_evaluate_model(X, y):
             print(f"Accuracy: {scores[f'{eval_type}balanced_accuracy'].mean():.2f}")
             print("\n")
 
-    # Fit the model
-    pipeline.fit(X, y_train)
+        # Fit the model
+        pipeline.fit(X, y_train)
 
-    #Save the pipeline after trainning
-    save_model(pipeline,model_name)
+        #Save the pipeline after trainning
+        save_model(pipeline,model_name)
